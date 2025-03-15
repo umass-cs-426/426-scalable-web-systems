@@ -1,0 +1,59 @@
+{
+    "compilerOptions": {
+      /* Specifies the output directory for compiled JavaScript files */
+      "outDir": "./dist",
+      
+      /* Sets the root directory of TypeScript files to be compiled */
+      "rootDir": "./src",
+  
+      /* Target ECMAScript version for output (ES6 provides modern JavaScript features) */
+      "target": "ES6",
+  
+      /* Module system to use: CommonJS is used for Node.js applications */
+      "module": "CommonJS",
+  
+      /* Enables strict type-checking options for safer and more predictable code */
+      "strict": true,
+  
+      /* Enables additional strict type-checking options */
+      "strictNullChecks": true,
+  
+      /* Ensures that only explicitly declared properties are allowed in objects */
+      "noImplicitAny": true,
+  
+      /* Prevents usage of undeclared variables */
+      "noImplicitThis": true,
+  
+      /* Allows default import syntax */
+      "esModuleInterop": true,
+  
+      /* Resolves non-relative module imports based on Node.js resolution logic */
+      "moduleResolution": "Node",
+  
+      /* Enables support for importing JSON files */
+      "resolveJsonModule": true,
+  
+      /* Allows importing modules without specifying the file extension */
+      "allowJs": true,
+  
+      /* Generates source maps for debugging */
+      "sourceMap": true,
+  
+      /* Removes comments from the output JavaScript files */
+      "removeComments": true,
+  
+      /* Specifies how TypeScript should treat default imports */
+      "allowSyntheticDefaultImports": true,
+  
+      /* Ensures all files are compiled even if there are type errors */
+      "skipLibCheck": true
+    },
+    "include": [
+      "src/**/*"
+    ],
+    "exclude": [
+      "node_modules",
+      "dist"
+    ]
+  }
+  

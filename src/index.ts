@@ -1,15 +1,21 @@
-type Service = {
-    name: string,
-    version: string,
-}
+import express from 'express';
+import morgan from 'morgan';
+import { router } from './routes';
 
-const ExampleService = (): Service => ({
-    name: 'Example Service',
-    version: '1.1'
-})
+const app = express();
+const port = 3000;
 
-// Eventually add code here to demonstrate the simple service.
-// Routes:
-//   - health/
-//   - metrics/
-//   - api/v1/quote/
+export const getApp = () => app;
+
+// Middleware to parse JSON bodies
+app.use(express.json());
+
+// Morgan middleware to log HTTP requests
+app.use(morgan('dev'));
+
+// Routes
+app.use(router);
+
+app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}/`);
+});
