@@ -4,7 +4,7 @@
       "outDir": "./dist",
       
       /* Sets the root directory of TypeScript files to be compiled */
-      "rootDir": "./src",
+      "rootDir": "src",
   
       /* Target ECMAScript version for output (ES6 provides modern JavaScript features) */
       "target": "ES6",
