@@ -1,0 +1,122 @@
+/* General styles */
+body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: 18px;
+    line-height: 1.8;
+    color: #333;
+    background-color: #FAFAFA;
+    margin: 0 auto;
+    padding: 40px;
+    max-width: 800px;
+}
+
+/* Headings */
+h1, h2, h3 {
+    font-family: 'Merriweather', serif;
+    color: #2c3e50;
+    margin-top: 30px;
+}
+
+h1 {
+    font-size: 2.2em;
+    border-bottom: 2px solid #d1d1d1;
+    padding-bottom: 5px;
+}
+
+h2 {
+    font-size: 1.8em;
+    margin-top: 25px;
+}
+
+h3 {
+    font-size: 1.5em;
+    margin-top: 20px;
+}
+
+/* Paragraphs */
+p {
+    margin-bottom: 1.2em;
+    text-align: justify;
+}
+
+/* Links */
+a {
+    color: #0077cc;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Blockquotes */
+blockquote {
+    font-style: italic;
+    color: #555;
+    border-left: 4px solid #0077cc;
+    padding-left: 15px;
+    margin: 20px 0;
+    background-color: #f5f5f5;
+    padding: 10px;
+}
+
+/* Lists */
+ul, ol {
+    margin-left: 20px;
+    padding-left: 20px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+/* Code Blocks */
+pre {
+    background: #f4f4f4;
+    padding: 10px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+}
+
+/* Inline Code */
+code {
+    background-color: #eee;
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+th {
+    background-color: #f1f1f1;
+    text-align: left;
+}
+
+/* Images */
+img {
+    max-width: 100%;
+    display: block;
+    margin: 10px auto;
+}
+
+/* Callout boxes */
+.note {
+    background: #e7f3ff;
+    padding: 10px;
+    border-left: 4px solid #0077cc;
+    font-style: italic;
+    margin: 20px 0;
+}

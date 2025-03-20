@@ -1,0 +1,176 @@
+
+<p style="margin-bottom: 1.2em; text-align: justify;">Yes, that makes perfect sense! To clarify:</p>
+<ul style="margin-left: 20px; padding-left: 20px;">
+<li style="margin-bottom: 5px;"><strong>We start with <code>main()</code></strong> and build it <strong>incrementally</strong>.</li>
+<li style="margin-bottom: 5px;"><strong>Whenever we call a new function</strong>, we <strong>continue writing the current code block first</strong>, then define the function <strong>right after</strong> the block.</li>
+<li style="margin-bottom: 5px;"><strong>Constants are defined immediately when encountered</strong>.</li>
+<li style="margin-bottom: 5px;"><strong>The progress bar is implemented last</strong>.</li>
+</ul>
+<hr>
+<h3 style="font-family: 'Arial', 'sans-serif'; color: #2c3e50; font-size: 1.5em; margin-top: 20px;"><strong>Example Flow in the Script</strong></h3>
+<p style="margin-bottom: 1.2em; text-align: justify;">1️⃣ <strong>We write part of <code>main()</code> first:</strong></p>
+<pre><code class="hljs language-javascript" style="color: #c9d1d9; background: #0d1117; display: block; overflow-x: auto; padding: 1em;"><span class="hljs-keyword" style="color: #ff7b72;">const</span> <span class="hljs-title function_" style="color: #d2a8ff;">main</span> = <span class="hljs-keyword" style="color: #ff7b72;">async</span> (<span class="hljs-params"></span>) =&gt; {
+    <span class="hljs-keyword" style="color: #ff7b72;">await</span> fs.<span class="hljs-title function_" style="color: #d2a8ff;">ensureDir</span>(<span class="hljs-variable constant_" style="color: #79c0ff;">OUTPUT_DIR</span>);
+    <span class="hljs-keyword" style="color: #ff7b72;">const</span> markdownFiles = <span class="hljs-title function_" style="color: #d2a8ff;">findMarkdownFiles</span>();
+};
+</code></pre>
+<p style="margin-bottom: 1.2em; text-align: justify;">2️⃣ <strong>Since <code>OUTPUT_DIR</code> is a constant, we define it immediately:</strong></p>
+<pre><code class="hljs language-javascript" style="color: #c9d1d9; background: #0d1117; display: block; overflow-x: auto; padding: 1em;"><span class="hljs-keyword" style="color: #ff7b72;">const</span> <span class="hljs-variable constant_" style="color: #79c0ff;">OUTPUT_DIR</span> = <span class="hljs-string" style="color: #a5d6ff;">&quot;html&quot;</span>;
+</code></pre>
+<p style="margin-bottom: 1.2em; text-align: justify;">3️⃣ <strong>Since <code>findMarkdownFiles()</code> is a function, we finish the <code>main()</code> block, THEN define it:</strong></p>
+<pre><code class="hljs language-javascript" style="color: #c9d1d9; background: #0d1117; display: block; overflow-x: auto; padding: 1em;"><span class="hljs-keyword" style="color: #ff7b72;">const</span> <span class="hljs-title function_" style="color: #d2a8ff;">findMarkdownFiles</span> = (<span class="hljs-params"></span>) =&gt; glob.<span class="hljs-title function_" style="color: #d2a8ff;">sync</span>(<span class="hljs-string" style="color: #a5d6ff;">`<span class="hljs-subst" style="color: #c9d1d9;">${SOURCE_DIR}</span>/**/*.md`</span>);
+</code></pre>
+<p style="margin-bottom: 1.2em; text-align: justify;">4️⃣ <strong>Once <code>main()</code> is complete, we implement the progress bar at the end.</strong></p>
+<hr>
+<p style="margin-bottom: 1.2em; text-align: justify;">✅ <strong>Now I completely understand your request!</strong> I'll generate the <strong>revised teleprompter script</strong> with this structure. 🚀 Stay tuned!</p>
+<h1 style="font-family: 'Arial', 'sans-serif'; color: #2c3e50; margin-top: 30px; font-size: 2.2em; border-bottom: 2px solid #d1d1d1; padding-bottom: 5px;"><strong>🎤 Revised Teleprompter Script for <code>convert_docs.mjs</code></strong></h1>
+<h2 style="font-family: 'Arial', 'sans-serif'; color: #2c3e50; font-size: 1.8em; margin-top: 25px;"><strong>🟢 Introduction</strong></h2>
+<p style="margin-bottom: 1.2em; text-align: justify;">&quot;Hey everyone! Today, I'll be building a <strong>Markdown-to-HTML converter</strong> in Node.js. This script will:<br>
+✅ Convert <code>.md</code> files to HTML,<br>
+✅ Apply <strong>syntax highlighting</strong> to code blocks,<br>
+✅ Inline <strong>CSS</strong> for a clean look,<br>
+✅ Maintain the <strong>folder structure</strong>,<br>
+✅ And at the end, we'll add a <strong>progress bar</strong>.&quot;</p>
+<p style="margin-bottom: 1.2em; text-align: justify;">&quot;We’ll start by writing the <strong><code>main()</code> function</strong> and defining functions <strong>as we need them</strong>. Let's get started!&quot;</p>
+<hr>
+<h2 style="font-family: 'Arial', 'sans-serif'; color: #2c3e50; font-size: 1.8em; margin-top: 25px;"><strong>🟢 Writing <code>main()</code></strong></h2>
+<p style="margin-bottom: 1.2em; text-align: justify;">&quot;I’ll start with <code>main()</code>, which will handle the entire conversion process.&quot;</p>
+<p style="margin-bottom: 1.2em; text-align: justify;">(📌 <strong>Type this out:</strong>)</p>
+<pre><code class="hljs language-javascript" style="color: #c9d1d9; background: #0d1117; display: block; overflow-x: auto; padding: 1em;"><span class="hljs-keyword" style="color: #ff7b72;">const</span> <span class="hljs-title function_" style="color: #d2a8ff;">main</span> = <span class="hljs-keyword" style="color: #ff7b72;">async</span> (<span class="hljs-params"></span>) =&gt; {
+    <span class="hljs-keyword" style="color: #ff7b72;">await</span> fs.<span class="hljs-title function_" style="color: #d2a8ff;">ensureDir</span>(<span class="hljs-variable constant_" style="color: #79c0ff;">OUTPUT_DIR</span>);
+    <span class="hljs-keyword" style="color: #ff7b72;">const</span> markdownFiles = <span class="hljs-title function_" style="color: #d2a8ff;">findMarkdownFiles</span>();
+    <span class="hljs-keyword" style="color: #ff7b72;">const</span> cssContent = <span class="hljs-keyword" style="color: #ff7b72;">await</span> <span class="hljs-title function_" style="color: #d2a8ff;">loadCss</span>();
+
+    <span class="hljs-keyword" style="color: #ff7b72;">for</span> (<span class="hljs-keyword" style="color: #ff7b72;">const</span> mdFile <span class="hljs-keyword" style="color: #ff7b72;">of</span> markdownFiles) {
+        <span class="hljs-keyword" style="color: #ff7b72;">await</span> <span class="hljs-title function_" style="color: #d2a8ff;">processFile</span>(mdFile, cssContent);
+    }
+
+    <span class="hljs-variable language_" style="color: #ff7b72;">console</span>.<span class="hljs-title function_" style="color: #d2a8ff;">log</span>(<span class="hljs-string" style="color: #a5d6ff;">&quot;\n✅ All Markdown files converted successfully!&quot;</span>);
+};
+
+<span class="hljs-comment" style="color: #8b949e;">// Execute the script</span>
+<span class="hljs-title function_" style="color: #d2a8ff;">main</span>().<span class="hljs-title function_" style="color: #d2a8ff;">catch</span>(<span class="hljs-function">(<span class="hljs-params">error</span>) =&gt;</span> <span class="hljs-variable language_" style="color: #ff7b72;">console</span>.<span class="hljs-title function_" style="color: #d2a8ff;">error</span>(<span class="hljs-string" style="color: #a5d6ff;">`\n❌ Fatal error: <span class="hljs-subst" style="color: #c9d1d9;">${error.message}</span>`</span>));
+</code></pre>
+<hr>
+<h2 style="font-family: 'Arial', 'sans-serif'; color: #2c3e50; font-size: 1.8em; margin-top: 25px;"><strong>🟢 Defining Constants</strong></h2>
+<p style="margin-bottom: 1.2em; text-align: justify;">&quot;Since we just used <code>OUTPUT_DIR</code>, let's define it now.&quot;</p>
+<p style="margin-bottom: 1.2em; text-align: justify;">(📌 <strong>Type this out:</strong>)</p>
+<pre><code class="hljs language-javascript" style="color: #c9d1d9; background: #0d1117; display: block; overflow-x: auto; padding: 1em;"><span class="hljs-keyword" style="color: #ff7b72;">const</span> <span class="hljs-variable constant_" style="color: #79c0ff;">OUTPUT_DIR</span> = <span class="hljs-string" style="color: #a5d6ff;">&quot;html&quot;</span>;
+</code></pre>
+<p style="margin-bottom: 1.2em; text-align: justify;">&quot;We also referenced <code>SOURCE_DIR</code> and <code>CSS_FILE</code>, so let's define those too.&quot;</p>
+<p style="margin-bottom: 1.2em; text-align: justify;">(📌 <strong>Type this out:</strong>)</p>
+<pre><code class="hljs language-javascript" style="color: #c9d1d9; background: #0d1117; display: block; overflow-x: auto; padding: 1em;"><span class="hljs-keyword" style="color: #ff7b72;">const</span> <span class="hljs-variable constant_" style="color: #79c0ff;">SOURCE_DIR</span> = <span class="hljs-string" style="color: #a5d6ff;">&quot;docs&quot;</span>;
+<span class="hljs-keyword" style="color: #ff7b72;">const</span> <span class="hljs-variable constant_" style="color: #79c0ff;">CSS_FILE</span> = <span class="hljs-string" style="color: #a5d6ff;">&quot;styles.css&quot;</span>;
+</code></pre>
+<hr>
+<h2 style="font-family: 'Arial', 'sans-serif'; color: #2c3e50; font-size: 1.8em; margin-top: 25px;"><strong>🟢 Finding Markdown Files</strong></h2>
+<p style="margin-bottom: 1.2em; text-align: justify;">&quot;In <code>main()</code>, I called <code>findMarkdownFiles()</code>, so let’s implement that now.&quot;</p>
+<p style="margin-bottom: 1.2em; text-align: justify;">(📌 <strong>Type this out:</strong>)</p>
+<pre><code class="hljs language-javascript" style="color: #c9d1d9; background: #0d1117; display: block; overflow-x: auto; padding: 1em;"><span class="hljs-keyword" style="color: #ff7b72;">const</span> <span class="hljs-title function_" style="color: #d2a8ff;">findMarkdownFiles</span> = (<span class="hljs-params"></span>) =&gt; glob.<span class="hljs-title function_" style="color: #d2a8ff;">sync</span>(<span class="hljs-string" style="color: #a5d6ff;">`<span class="hljs-subst" style="color: #c9d1d9;">${SOURCE_DIR}</span>/**/*.md`</span>);
+</code></pre>
+<p style="margin-bottom: 1.2em; text-align: justify;">&quot;This function <strong>finds all Markdown files</strong> inside <code>docs/</code>.&quot;</p>
+<hr>
+<h2 style="font-family: 'Arial', 'sans-serif'; color: #2c3e50; font-size: 1.8em; margin-top: 25px;"><strong>🟢 Loading CSS</strong></h2>
+<p style="margin-bottom: 1.2em; text-align: justify;">&quot;We also called <code>loadCss()</code>, so let’s define it now.&quot;</p>
+<p style="margin-bottom: 1.2em; text-align: justify;">(📌 <strong>Type this out:</strong>)</p>
+<pre><code class="hljs language-javascript" style="color: #c9d1d9; background: #0d1117; display: block; overflow-x: auto; padding: 1em;"><span class="hljs-keyword" style="color: #ff7b72;">const</span> <span class="hljs-title function_" style="color: #d2a8ff;">loadCss</span> = <span class="hljs-keyword" style="color: #ff7b72;">async</span> (<span class="hljs-params"></span>) =&gt; {
+    <span class="hljs-keyword" style="color: #ff7b72;">return</span> (<span class="hljs-keyword" style="color: #ff7b72;">await</span> fs.<span class="hljs-title function_" style="color: #d2a8ff;">pathExists</span>(<span class="hljs-variable constant_" style="color: #79c0ff;">CSS_FILE</span>)) ? <span class="hljs-keyword" style="color: #ff7b72;">await</span> fs.<span class="hljs-title function_" style="color: #d2a8ff;">readFile</span>(<span class="hljs-variable constant_" style="color: #79c0ff;">CSS_FILE</span>, <span class="hljs-string" style="color: #a5d6ff;">&quot;utf8&quot;</span>) : <span class="hljs-string" style="color: #a5d6ff;">&quot;&quot;</span>;
+};
+</code></pre>
+<p style="margin-bottom: 1.2em; text-align: justify;">&quot;This function <strong>loads a CSS file</strong> if it exists, otherwise, it returns an empty string.&quot;</p>
+<hr>
+<h2 style="font-family: 'Arial', 'sans-serif'; color: #2c3e50; font-size: 1.8em; margin-top: 25px;"><strong>🟢 Processing a Markdown File</strong></h2>
+<p style="margin-bottom: 1.2em; text-align: justify;">&quot;In <code>main()</code>, we called <code>processFile()</code>. Let’s define it next.&quot;</p>
+<p style="margin-bottom: 1.2em; text-align: justify;">(📌 <strong>Type this out:</strong>)</p>
+<pre><code class="hljs language-javascript" style="color: #c9d1d9; background: #0d1117; display: block; overflow-x: auto; padding: 1em;"><span class="hljs-keyword" style="color: #ff7b72;">const</span> <span class="hljs-title function_" style="color: #d2a8ff;">processFile</span> = <span class="hljs-keyword" style="color: #ff7b72;">async</span> (<span class="hljs-params">mdFile, cssContent</span>) =&gt; {
+    <span class="hljs-keyword" style="color: #ff7b72;">const</span> relativePath = path.<span class="hljs-title function_" style="color: #d2a8ff;">relative</span>(<span class="hljs-variable constant_" style="color: #79c0ff;">SOURCE_DIR</span>, mdFile);
+    <span class="hljs-keyword" style="color: #ff7b72;">const</span> outputHtml = path.<span class="hljs-title function_" style="color: #d2a8ff;">join</span>(<span class="hljs-variable constant_" style="color: #79c0ff;">OUTPUT_DIR</span>, relativePath.<span class="hljs-title function_" style="color: #d2a8ff;">replace</span>(<span class="hljs-regexp" style="color: #a5d6ff;">/\.md$/</span>, <span class="hljs-string" style="color: #a5d6ff;">&quot;.html&quot;</span>));
+
+    <span class="hljs-keyword" style="color: #ff7b72;">await</span> <span class="hljs-title function_" style="color: #d2a8ff;">ensureOutputDirectory</span>(outputHtml);
+
+    <span class="hljs-keyword" style="color: #ff7b72;">const</span> markdownContent = <span class="hljs-keyword" style="color: #ff7b72;">await</span> fs.<span class="hljs-title function_" style="color: #d2a8ff;">readFile</span>(mdFile, <span class="hljs-string" style="color: #a5d6ff;">&quot;utf8&quot;</span>);
+    <span class="hljs-keyword" style="color: #ff7b72;">let</span> htmlContent = <span class="hljs-title function_" style="color: #d2a8ff;">convertMarkdownToHtml</span>(markdownContent);
+
+    <span class="hljs-keyword" style="color: #ff7b72;">if</span> (cssContent) {
+        htmlContent = <span class="hljs-string" style="color: #a5d6ff;">`&lt;style&gt;<span class="hljs-subst" style="color: #c9d1d9;">${cssContent}</span>&lt;/style&gt;\n<span class="hljs-subst" style="color: #c9d1d9;">${htmlContent}</span>`</span>;
+    }
+
+    <span class="hljs-keyword" style="color: #ff7b72;">const</span> inlinedHtml = <span class="hljs-title function_" style="color: #d2a8ff;">inlineCss</span>(htmlContent);
+    <span class="hljs-keyword" style="color: #ff7b72;">await</span> fs.<span class="hljs-title function_" style="color: #d2a8ff;">writeFile</span>(outputHtml, inlinedHtml, <span class="hljs-string" style="color: #a5d6ff;">&quot;utf8&quot;</span>);
+};
+</code></pre>
+<p style="margin-bottom: 1.2em; text-align: justify;">&quot;This function <strong>converts Markdown to HTML</strong>, applies styles, and <strong>saves the output</strong>.&quot;</p>
+<hr>
+<h2 style="font-family: 'Arial', 'sans-serif'; color: #2c3e50; font-size: 1.8em; margin-top: 25px;"><strong>🟢 Ensuring Directories Exist</strong></h2>
+<p style="margin-bottom: 1.2em; text-align: justify;">&quot;<code>processFile()</code> uses <code>ensureOutputDirectory()</code>, so let’s define it next.&quot;</p>
+<p style="margin-bottom: 1.2em; text-align: justify;">(📌 <strong>Type this out:</strong>)</p>
+<pre><code class="hljs language-javascript" style="color: #c9d1d9; background: #0d1117; display: block; overflow-x: auto; padding: 1em;"><span class="hljs-keyword" style="color: #ff7b72;">const</span> <span class="hljs-title function_" style="color: #d2a8ff;">ensureOutputDirectory</span> = <span class="hljs-keyword" style="color: #ff7b72;">async</span> (<span class="hljs-params">filePath</span>) =&gt; {
+    <span class="hljs-keyword" style="color: #ff7b72;">await</span> fs.<span class="hljs-title function_" style="color: #d2a8ff;">ensureDir</span>(path.<span class="hljs-title function_" style="color: #d2a8ff;">dirname</span>(filePath));
+};
+</code></pre>
+<p style="margin-bottom: 1.2em; text-align: justify;">&quot;This ensures that <strong>output directories exist</strong> before saving the HTML file.&quot;</p>
+<hr>
+<h2 style="font-family: 'Arial', 'sans-serif'; color: #2c3e50; font-size: 1.8em; margin-top: 25px;"><strong>🟢 Converting Markdown to HTML</strong></h2>
+<p style="margin-bottom: 1.2em; text-align: justify;">&quot;We also need <code>convertMarkdownToHtml()</code>, which will <strong>process Markdown and highlight code blocks</strong>.&quot;</p>
+<p style="margin-bottom: 1.2em; text-align: justify;">(📌 <strong>Type this out:</strong>)</p>
+<pre><code class="hljs language-javascript" style="color: #c9d1d9; background: #0d1117; display: block; overflow-x: auto; padding: 1em;"><span class="hljs-keyword" style="color: #ff7b72;">const</span> <span class="hljs-title function_" style="color: #d2a8ff;">convertMarkdownToHtml</span> = (<span class="hljs-params">markdown</span>) =&gt; mdParser.<span class="hljs-title function_" style="color: #d2a8ff;">render</span>(markdown);
+</code></pre>
+<p style="margin-bottom: 1.2em; text-align: justify;">&quot;This function <strong>turns Markdown into HTML</strong>.&quot;</p>
+<hr>
+<h2 style="font-family: 'Arial', 'sans-serif'; color: #2c3e50; font-size: 1.8em; margin-top: 25px;"><strong>🟢 Setting Up Syntax Highlighting</strong></h2>
+<p style="margin-bottom: 1.2em; text-align: justify;">&quot;But <code>convertMarkdownToHtml()</code> needs a Markdown parser. Let’s configure it now with syntax highlighting.&quot;</p>
+<p style="margin-bottom: 1.2em; text-align: justify;">(📌 <strong>Type this out:</strong>)</p>
+<pre><code class="hljs language-javascript" style="color: #c9d1d9; background: #0d1117; display: block; overflow-x: auto; padding: 1em;"><span class="hljs-keyword" style="color: #ff7b72;">const</span> mdParser = <span class="hljs-title function_" style="color: #d2a8ff;">markdownIt</span>({
+    <span class="hljs-attr" style="color: #79c0ff;">highlight</span>: <span class="hljs-function">(<span class="hljs-params">code, lang</span>) =&gt;</span> {
+        <span class="hljs-keyword" style="color: #ff7b72;">const</span> validLang = lang &amp;&amp; hljs.<span class="hljs-title function_" style="color: #d2a8ff;">getLanguage</span>(lang) ? lang : <span class="hljs-string" style="color: #a5d6ff;">&quot;plaintext&quot;</span>;
+        <span class="hljs-keyword" style="color: #ff7b72;">return</span> <span class="hljs-string" style="color: #a5d6ff;">`&lt;pre&gt;&lt;code class=&quot;hljs language-<span class="hljs-subst" style="color: #c9d1d9;">${validLang}</span>&quot;&gt;<span class="hljs-subst" style="color: #c9d1d9;">${hljs.highlight(code, { language: validLang }).value}</span>&lt;/code&gt;&lt;/pre&gt;`</span>;
+    }
+});
+</code></pre>
+<p style="margin-bottom: 1.2em; text-align: justify;">&quot;This sets up <code>markdown-it</code> with <code>highlight.js</code>, so <strong>code blocks get syntax highlighting</strong>.&quot;</p>
+<hr>
+<h2 style="font-family: 'Arial', 'sans-serif'; color: #2c3e50; font-size: 1.8em; margin-top: 25px;"><strong>🟢 Inlining CSS</strong></h2>
+<p style="margin-bottom: 1.2em; text-align: justify;">&quot;Finally, <code>processFile()</code> calls <code>inlineCss()</code>, so let’s define that next.&quot;</p>
+<p style="margin-bottom: 1.2em; text-align: justify;">(📌 <strong>Type this out:</strong>)</p>
+<pre><code class="hljs language-javascript" style="color: #c9d1d9; background: #0d1117; display: block; overflow-x: auto; padding: 1em;"><span class="hljs-keyword" style="color: #ff7b72;">const</span> <span class="hljs-title function_" style="color: #d2a8ff;">inlineCss</span> = (<span class="hljs-params">html</span>) =&gt; <span class="hljs-title function_" style="color: #d2a8ff;">juice</span>(html);
+</code></pre>
+<p style="margin-bottom: 1.2em; text-align: justify;">&quot;This ensures that <strong>CSS styles are embedded directly</strong> into the final HTML.&quot;</p>
+<hr>
+<h2 style="font-family: 'Arial', 'sans-serif'; color: #2c3e50; font-size: 1.8em; margin-top: 25px;"><strong>🟢 Adding the Progress Bar</strong></h2>
+<p style="margin-bottom: 1.2em; text-align: justify;">&quot;Now, let’s improve the script by <strong>adding a progress bar</strong>.&quot;</p>
+<p style="margin-bottom: 1.2em; text-align: justify;">(📌 <strong>Replace the <code>for</code> loop inside <code>main()</code> with this:</strong>)</p>
+<pre><code class="hljs language-javascript" style="color: #c9d1d9; background: #0d1117; display: block; overflow-x: auto; padding: 1em;"><span class="hljs-keyword" style="color: #ff7b72;">const</span> progressBar = <span class="hljs-keyword" style="color: #ff7b72;">new</span> cliProgress.<span class="hljs-title class_" style="color: #d2a8ff;">SingleBar</span>({}, cliProgress.<span class="hljs-property">Presets</span>.<span class="hljs-property">shades_classic</span>);
+progressBar.<span class="hljs-title function_" style="color: #d2a8ff;">start</span>(markdownFiles.<span class="hljs-property">length</span>, <span class="hljs-number" style="color: #79c0ff;">0</span>);
+
+<span class="hljs-keyword" style="color: #ff7b72;">for</span> (<span class="hljs-keyword" style="color: #ff7b72;">const</span> mdFile <span class="hljs-keyword" style="color: #ff7b72;">of</span> markdownFiles) {
+    <span class="hljs-keyword" style="color: #ff7b72;">await</span> <span class="hljs-title function_" style="color: #d2a8ff;">processFile</span>(mdFile, cssContent);
+    progressBar.<span class="hljs-title function_" style="color: #d2a8ff;">update</span>(markdownFiles.<span class="hljs-title function_" style="color: #d2a8ff;">indexOf</span>(mdFile) + <span class="hljs-number" style="color: #79c0ff;">1</span>);
+}
+
+progressBar.<span class="hljs-title function_" style="color: #d2a8ff;">stop</span>();
+<span class="hljs-variable language_" style="color: #ff7b72;">console</span>.<span class="hljs-title function_" style="color: #d2a8ff;">log</span>(<span class="hljs-string" style="color: #a5d6ff;">&quot;\n✅ All Markdown files converted successfully!&quot;</span>);
+</code></pre>
+<p style="margin-bottom: 1.2em; text-align: justify;">&quot;This will <strong>show live progress</strong> while files are being converted.&quot;</p>
+<hr>
+<h2 style="font-family: 'Arial', 'sans-serif'; color: #2c3e50; font-size: 1.8em; margin-top: 25px;"><strong>🟢 Running the Script</strong></h2>
+<p style="margin-bottom: 1.2em; text-align: justify;">&quot;Now let’s test the script!&quot;</p>
+<p style="margin-bottom: 1.2em; text-align: justify;">(📌 <strong>Type this out:</strong>)</p>
+<pre><code class="hljs language-sh" style="color: #c9d1d9; background: #0d1117; display: block; overflow-x: auto; padding: 1em;">node convert_docs.mjs
+</code></pre>
+<p style="margin-bottom: 1.2em; text-align: justify;">&quot;This will <strong>convert all Markdown files</strong> in <code>docs/</code> into <strong>highlighted HTML</strong> inside <code>html/</code>.&quot;</p>
+<hr>
+<h2 style="font-family: 'Arial', 'sans-serif'; color: #2c3e50; font-size: 1.8em; margin-top: 25px;"><strong>🎬 Closing the Video</strong></h2>
+<p style="margin-bottom: 1.2em; text-align: justify;">&quot;That’s it! We’ve built a <strong>Markdown-to-HTML converter</strong> that:
+✅ Finds Markdown files,<br>
+✅ Converts them to <strong>styled HTML</strong>,<br>
+✅ Highlights <strong>code blocks</strong>,<br>
+✅ Inlines CSS for a <strong>self-contained output</strong>,<br>
+✅ Preserves the <strong>folder structure</strong>,<br>
+✅ And shows a <strong>progress bar</strong>!&quot;</p>
+<p style="margin-bottom: 1.2em; text-align: justify;">&quot;If you found this useful, don’t forget to <strong>like, subscribe, and comment</strong>! See you in the next one. 🚀&quot;</p>
+<hr>
+<h2 style="font-family: 'Arial', 'sans-serif'; color: #2c3e50; font-size: 1.8em; margin-top: 25px;"><strong>🔥 Why This Teleprompter Script Works Better</strong></h2>
+<p style="margin-bottom: 1.2em; text-align: justify;">✅ <strong>More natural coding flow</strong> → We build <strong>incrementally</strong>, defining functions <strong>only when needed</strong>.<br>
+✅ <strong>Easier to follow for viewers</strong> → They <strong>see the program take shape step by step</strong>.<br>
+✅ <strong>Progress bar added last</strong> → Keeps focus on the core functionality first.</p>
+<p style="margin-bottom: 1.2em; text-align: justify;">This structure will <strong>feel smooth and engaging</strong> in your screen recording! 🚀🔥 Let me know if you need tweaks!</p>
