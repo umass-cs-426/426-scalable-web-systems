@@ -1,0 +1,134 @@
+
+<h1 style="font-family: 'Arial', 'sans-serif'; color: #2c3e50; margin-top: 30px; font-size: 2.2em; border-bottom: 2px solid #d1d1d1; padding-bottom: 5px;">⚙️ Microservice Example</h1>
+<h3 style="font-family: 'Arial', 'sans-serif'; color: #2c3e50; font-size: 1.5em; margin-top: 20px;"><strong>Introduction</strong></h3>
+<p style="margin-bottom: 1.2em; text-align: justify;">Microservices provide a modular and scalable approach to application development by breaking down a system into independently deployable services. In this example, we analyze a foundational TypeScript-based microservice implemented using the Express framework step-by-step. This microservice exposes several HTTP endpoints, including conventional <code>/health</code> and <code>/metrics</code> endpoints, while adhering to a functional programming paradigm. The code is structured using arrow functions exclusively, avoiding the use of object-oriented patterns such as classes. This design promotes immutability, composability, and a declarative style of programming.</p>
+<h3 style="font-family: 'Arial', 'sans-serif'; color: #2c3e50; font-size: 1.5em; margin-top: 20px;"><strong>Project Creation and Dependencies</strong></h3>
+<p style="margin-bottom: 1.2em; text-align: justify;">It is always useful to start with a simple, yet clear example that we can build on. We will be using TypeScript and the Express framework as the major modules in this example. First, let us create a project folder and install important modules:</p>
+<pre><code class="hljs language-bash" style="color: #c9d1d9; background: #0d1117; display: block; overflow-x: auto; padding: 1em;"><span class="hljs-built_in" style="color: #ffa657;">mkdir</span> 4.1-basics-of-microservices
+<span class="hljs-built_in" style="color: #ffa657;">cd</span> 4.1-basics-of-microservices
+npm init -y
+npm install -D typescript ts-node @types/express @types/node
+npm install -S express performance
+</code></pre>
+<p style="margin-bottom: 1.2em; text-align: justify;">We install the <code>typescript</code> and <code>ts-node</code> modules as development dependencies. We do not need these modules after we compile and build the application because the end result is simply JavaScript. We also install <code>@types/express</code> and <code>@types/node</code> as development dependencies as these modules define the <em>types</em> that are used to type check your TypeScript code in your code editor (e.g., VSCode) as well as when the TypeScript compiler, <code>tsc</code>, is used to compile your code to JavaScript. We then install <code>express</code> to make implementing the microservice easier and the <code>performance</code> module to track microservice metrics.</p>
+<h3 style="font-family: 'Arial', 'sans-serif'; color: #2c3e50; font-size: 1.5em; margin-top: 20px;"><strong>Setting Up the Express Application</strong></h3>
+<p style="margin-bottom: 1.2em; text-align: justify;">The microservice begins by importing the necessary dependencies and initializing an Express application. The Express framework is a lightweight and flexible web server for Node.js, allowing for the creation of HTTP endpoints with minimal boilerplate code. The <code>performance</code> module from Node.js is also imported to facilitate response time tracking, which is essential for monitoring the service’s efficiency.</p>
+<pre><code class="hljs language-javascript" style="color: #c9d1d9; background: #0d1117; display: block; overflow-x: auto; padding: 1em;"><span class="hljs-keyword" style="color: #ff7b72;">import</span> express, { <span class="hljs-title class_" style="color: #d2a8ff;">Request</span>, <span class="hljs-title class_" style="color: #d2a8ff;">Response</span> } <span class="hljs-keyword" style="color: #ff7b72;">from</span> <span class="hljs-string" style="color: #a5d6ff;">&quot;express&quot;</span>;
+<span class="hljs-keyword" style="color: #ff7b72;">import</span> { performance } <span class="hljs-keyword" style="color: #ff7b72;">from</span> <span class="hljs-string" style="color: #a5d6ff;">&quot;perf_hooks&quot;</span>;
+
+<span class="hljs-keyword" style="color: #ff7b72;">const</span> app = <span class="hljs-title function_" style="color: #d2a8ff;">express</span>();
+<span class="hljs-keyword" style="color: #ff7b72;">const</span> port = process.<span class="hljs-property">env</span>.<span class="hljs-property">PORT</span> || <span class="hljs-number" style="color: #79c0ff;">3000</span>;
+</code></pre>
+<p style="margin-bottom: 1.2em; text-align: justify;">Here, the <code>express</code> module is imported along with the <code>Request</code> and <code>Response</code> types, ensuring type safety in our route handlers. The <code>app</code> constant represents an instance of an Express application, and <code>port</code> is set to either the value specified in the environment variable <code>PORT</code> or defaults to <code>3000</code> if no such variable exists. This allows the service to be configured dynamically based on its deployment environment.</p>
+<h3 style="font-family: 'Arial', 'sans-serif'; color: #2c3e50; font-size: 1.5em; margin-top: 20px;"><strong>Middleware for Request Logging</strong></h3>
+<p style="margin-bottom: 1.2em; text-align: justify;">Logging HTTP requests is a fundamental practice in service monitoring and debugging. The middleware function defined below logs the incoming HTTP request method and URL, along with a timestamp.</p>
+<pre><code class="hljs language-javascript" style="color: #c9d1d9; background: #0d1117; display: block; overflow-x: auto; padding: 1em;"><span class="hljs-keyword" style="color: #ff7b72;">const</span> <span class="hljs-title function_" style="color: #d2a8ff;">logger</span> = (<span class="hljs-params">req: Request, res: Response, next: () =&gt; <span class="hljs-keyword" style="color: #ff7b72;">void</span></span>) =&gt; {
+  <span class="hljs-variable language_" style="color: #ff7b72;">console</span>.<span class="hljs-title function_" style="color: #d2a8ff;">log</span>(<span class="hljs-string" style="color: #a5d6ff;">`[<span class="hljs-subst" style="color: #c9d1d9;">${<span class="hljs-keyword" style="color: #ff7b72;">new</span> <span class="hljs-built_in" style="color: #ffa657;">Date</span>().toISOString()}</span>] <span class="hljs-subst" style="color: #c9d1d9;">${req.method}</span> <span class="hljs-subst" style="color: #c9d1d9;">${req.url}</span>`</span>);
+  <span class="hljs-title function_" style="color: #d2a8ff;">next</span>();
+};
+
+app.<span class="hljs-title function_" style="color: #d2a8ff;">use</span>(logger);
+</code></pre>
+<p style="margin-bottom: 1.2em; text-align: justify;">This middleware function follows the Express middleware convention, taking the request (<code>req</code>), response (<code>res</code>), and a <code>next</code> function as arguments. The middleware executes synchronously, printing the request details to the console before invoking <code>next()</code>, which ensures that request processing continues to subsequent middleware or route handlers. The <code>app.use(logger);</code> statement registers this middleware globally, meaning it will be executed for every incoming request.</p>
+<h3 style="font-family: 'Arial', 'sans-serif'; color: #2c3e50; font-size: 1.5em; margin-top: 20px;"><strong>Tracking Request Metrics</strong></h3>
+<p style="margin-bottom: 1.2em; text-align: justify;">To monitor service performance, the microservice tracks the total number of incoming requests and measures response times. Two global variables are defined to store these metrics:</p>
+<pre><code class="hljs language-javascript" style="color: #c9d1d9; background: #0d1117; display: block; overflow-x: auto; padding: 1em;"><span class="hljs-keyword" style="color: #ff7b72;">let</span> requestCount = <span class="hljs-number" style="color: #79c0ff;">0</span>;
+<span class="hljs-keyword" style="color: #ff7b72;">const</span> <span class="hljs-attr" style="color: #79c0ff;">requestTimes</span>: number[] = [];
+</code></pre>
+<p style="margin-bottom: 1.2em; text-align: justify;">The <code>requestCount</code> variable maintains a count of the total requests handled by the microservice, while <code>requestTimes</code> stores the response duration of each request. To ensure these metrics are updated correctly, a higher-order function is introduced that wraps each route handler.</p>
+<pre><code class="hljs language-javascript" style="color: #c9d1d9; background: #0d1117; display: block; overflow-x: auto; padding: 1em;"><span class="hljs-keyword" style="color: #ff7b72;">const</span> <span class="hljs-title function_" style="color: #d2a8ff;">recordMetrics</span> = (<span class="hljs-params">handler: (req: Request, res: Response) =&gt; <span class="hljs-keyword" style="color: #ff7b72;">void</span></span>) =&gt; 
+  <span class="hljs-function">(<span class="hljs-params">req: Request, res: Response</span>) =&gt;</span> {
+    requestCount++;
+    <span class="hljs-keyword" style="color: #ff7b72;">const</span> start = performance.<span class="hljs-title function_" style="color: #d2a8ff;">now</span>();
+    res.<span class="hljs-title function_" style="color: #d2a8ff;">on</span>(<span class="hljs-string" style="color: #a5d6ff;">&quot;finish&quot;</span>, <span class="hljs-function">() =&gt;</span> requestTimes.<span class="hljs-title function_" style="color: #d2a8ff;">push</span>(performance.<span class="hljs-title function_" style="color: #d2a8ff;">now</span>() - start));
+    <span class="hljs-title function_" style="color: #d2a8ff;">handler</span>(req, res);
+  };
+</code></pre>
+<p style="margin-bottom: 1.2em; text-align: justify;">This function, <code>recordMetrics</code>, takes a standard route handler as input and returns a new function that first increments the request count and records the timestamp at the beginning of the request. Once the response is finished, it calculates the total response duration and appends it to the <code>requestTimes</code> array. This functional approach enhances code modularity by allowing any route handler to be wrapped in <code>recordMetrics</code>, ensuring that request statistics are collected in a non-intrusive manner.</p>
+<h3 style="font-family: 'Arial', 'sans-serif'; color: #2c3e50; font-size: 1.5em; margin-top: 20px;"><strong>Health Check Endpoint</strong></h3>
+<p style="margin-bottom: 1.2em; text-align: justify;">A common feature of microservices is the implementation of a health check endpoint, which allows external monitoring systems to verify that the service is operational. The <code>/health</code> endpoint is defined as follows:</p>
+<pre><code class="hljs language-javascript" style="color: #c9d1d9; background: #0d1117; display: block; overflow-x: auto; padding: 1em;">app.<span class="hljs-title function_" style="color: #d2a8ff;">get</span>(<span class="hljs-string" style="color: #a5d6ff;">&quot;/health&quot;</span>, <span class="hljs-title function_" style="color: #d2a8ff;">recordMetrics</span>(<span class="hljs-function">(<span class="hljs-params">_, res</span>) =&gt;</span> res.<span class="hljs-title function_" style="color: #d2a8ff;">json</span>({ <span class="hljs-attr" style="color: #79c0ff;">status</span>: <span class="hljs-string" style="color: #a5d6ff;">&quot;healthy&quot;</span> })));
+</code></pre>
+<p style="margin-bottom: 1.2em; text-align: justify;">This route responds with a JSON object containing <code>{ &quot;status&quot;: &quot;healthy&quot; }</code>. It is wrapped in the <code>recordMetrics</code> function, ensuring that each request to this endpoint contributes to the service’s performance metrics. This endpoint is typically used by Kubernetes, load balancers, or monitoring tools to determine whether the microservice is functioning as expected.</p>
+<h3 style="font-family: 'Arial', 'sans-serif'; color: #2c3e50; font-size: 1.5em; margin-top: 20px;"><strong>Metrics Endpoint</strong></h3>
+<p style="margin-bottom: 1.2em; text-align: justify;">The <code>/metrics</code> endpoint provides quantitative insights into the microservice’s behavior, including the total number of processed requests and the average response time. The implementation is as follows:</p>
+<pre><code class="hljs language-javascript" style="color: #c9d1d9; background: #0d1117; display: block; overflow-x: auto; padding: 1em;">app.<span class="hljs-title function_" style="color: #d2a8ff;">get</span>(<span class="hljs-string" style="color: #a5d6ff;">&quot;/metrics&quot;</span>, <span class="hljs-title function_" style="color: #d2a8ff;">recordMetrics</span>(<span class="hljs-function">(<span class="hljs-params">_, res</span>) =&gt;</span> {
+  <span class="hljs-keyword" style="color: #ff7b72;">const</span> avgResponseTime = requestTimes.<span class="hljs-property">length</span>
+    ? requestTimes.<span class="hljs-title function_" style="color: #d2a8ff;">reduce</span>(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> a + b, <span class="hljs-number" style="color: #79c0ff;">0</span>) / requestTimes.<span class="hljs-property">length</span>
+    : <span class="hljs-number" style="color: #79c0ff;">0</span>;
+
+  res.<span class="hljs-title function_" style="color: #d2a8ff;">set</span>(<span class="hljs-string" style="color: #a5d6ff;">&quot;Content-Type&quot;</span>, <span class="hljs-string" style="color: #a5d6ff;">&quot;text/plain&quot;</span>);
+  res.<span class="hljs-title function_" style="color: #d2a8ff;">send</span>([
+    <span class="hljs-string" style="color: #a5d6ff;">`request_count <span class="hljs-subst" style="color: #c9d1d9;">${requestCount}</span>`</span>,
+    <span class="hljs-string" style="color: #a5d6ff;">`average_response_time_ms <span class="hljs-subst" style="color: #c9d1d9;">${avgResponseTime.toFixed(<span class="hljs-number" style="color: #79c0ff;">2</span>)}</span>`</span>
+  ].<span class="hljs-title function_" style="color: #d2a8ff;">join</span>(<span class="hljs-string" style="color: #a5d6ff;">&quot;\n&quot;</span>));
+}));
+</code></pre>
+<p style="margin-bottom: 1.2em; text-align: justify;">This endpoint computes the average response time by summing all recorded response durations and dividing by the total number of requests. If no requests have been processed, it defaults to <code>0</code> to prevent division by zero. The response format follows Prometheus conventions, returning plain-text key-value pairs that can be easily parsed by monitoring systems.</p>
+<h3 style="font-family: 'Arial', 'sans-serif'; color: #2c3e50; font-size: 1.5em; margin-top: 20px;"><strong>Mock Endpoints for Demonstration</strong></h3>
+<p style="margin-bottom: 1.2em; text-align: justify;">To illustrate how additional endpoints can be integrated into the microservice, two mock endpoints are provided.</p>
+<pre><code class="hljs language-javascript" style="color: #c9d1d9; background: #0d1117; display: block; overflow-x: auto; padding: 1em;">app.<span class="hljs-title function_" style="color: #d2a8ff;">get</span>(<span class="hljs-string" style="color: #a5d6ff;">&quot;/hello&quot;</span>, <span class="hljs-title function_" style="color: #d2a8ff;">recordMetrics</span>(<span class="hljs-function">(<span class="hljs-params">_, res</span>) =&gt;</span> res.<span class="hljs-title function_" style="color: #d2a8ff;">json</span>({ <span class="hljs-attr" style="color: #79c0ff;">message</span>: <span class="hljs-string" style="color: #a5d6ff;">&quot;Hello, world!&quot;</span> })));
+</code></pre>
+<p style="margin-bottom: 1.2em; text-align: justify;">The <code>/hello</code> endpoint responds with a simple JSON object containing <code>{ &quot;message&quot;: &quot;Hello, world!&quot; }</code>, demonstrating a basic GET request. Similarly, a POST endpoint is included to echo back received data:</p>
+<pre><code class="hljs language-javascript" style="color: #c9d1d9; background: #0d1117; display: block; overflow-x: auto; padding: 1em;">app.<span class="hljs-title function_" style="color: #d2a8ff;">post</span>(<span class="hljs-string" style="color: #a5d6ff;">&quot;/echo&quot;</span>, express.<span class="hljs-title function_" style="color: #d2a8ff;">json</span>(), <span class="hljs-title function_" style="color: #d2a8ff;">recordMetrics</span>(<span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> res.<span class="hljs-title function_" style="color: #d2a8ff;">json</span>({ <span class="hljs-attr" style="color: #79c0ff;">received</span>: req.<span class="hljs-property">body</span> })));
+</code></pre>
+<p style="margin-bottom: 1.2em; text-align: justify;">This endpoint expects a JSON payload in the request body, which is then returned as part of the response. The <code>express.json()</code> middleware ensures that incoming JSON data is correctly parsed.</p>
+<h3 style="font-family: 'Arial', 'sans-serif'; color: #2c3e50; font-size: 1.5em; margin-top: 20px;"><strong>Starting the Microservice</strong></h3>
+<p style="margin-bottom: 1.2em; text-align: justify;">Finally, the Express application is started by binding it to the specified port.</p>
+<pre><code class="hljs language-javascript" style="color: #c9d1d9; background: #0d1117; display: block; overflow-x: auto; padding: 1em;">app.<span class="hljs-title function_" style="color: #d2a8ff;">listen</span>(port, <span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_" style="color: #ff7b72;">console</span>.<span class="hljs-title function_" style="color: #d2a8ff;">log</span>(<span class="hljs-string" style="color: #a5d6ff;">`Microservice running on port <span class="hljs-subst" style="color: #c9d1d9;">${port}</span>`</span>));
+</code></pre>
+<p style="margin-bottom: 1.2em; text-align: justify;">This function call initializes the HTTP server, allowing the microservice to begin handling incoming requests. The provided callback function logs a message indicating that the service is running, ensuring visibility into the startup process.</p>
+<h3 style="font-family: 'Arial', 'sans-serif'; color: #2c3e50; font-size: 1.5em; margin-top: 20px;"><strong>Summary</strong></h3>
+<p style="margin-bottom: 1.2em; text-align: justify;">This microservice demonstrates a structured approach to designing HTTP-based services using TypeScript and Express. The inclusion of <code>/health</code> and <code>/metrics</code> endpoints aligns with modern microservice conventions, ensuring that the service remains observable and maintainable. Additionally, the use of middleware and request tracking mechanisms illustrates best practices for monitoring performance and logging request activity. This foundational example provides a template upon which more complex microservices can be built, incorporating additional business logic, authentication mechanisms, and inter-service communication patterns.</p>
+<h3 style="font-family: 'Arial', 'sans-serif'; color: #2c3e50; font-size: 1.5em; margin-top: 20px;"><strong>Complete Code</strong></h3>
+<pre><code class="hljs language-javascript" style="color: #c9d1d9; background: #0d1117; display: block; overflow-x: auto; padding: 1em;"><span class="hljs-keyword" style="color: #ff7b72;">import</span> express, { <span class="hljs-title class_" style="color: #d2a8ff;">Request</span>, <span class="hljs-title class_" style="color: #d2a8ff;">Response</span> } <span class="hljs-keyword" style="color: #ff7b72;">from</span> <span class="hljs-string" style="color: #a5d6ff;">&quot;express&quot;</span>;
+<span class="hljs-keyword" style="color: #ff7b72;">import</span> { performance } <span class="hljs-keyword" style="color: #ff7b72;">from</span> <span class="hljs-string" style="color: #a5d6ff;">&quot;perf_hooks&quot;</span>;
+
+<span class="hljs-keyword" style="color: #ff7b72;">const</span> app = <span class="hljs-title function_" style="color: #d2a8ff;">express</span>();
+<span class="hljs-keyword" style="color: #ff7b72;">const</span> port = process.<span class="hljs-property">env</span>.<span class="hljs-property">PORT</span> || <span class="hljs-number" style="color: #79c0ff;">3000</span>;
+
+<span class="hljs-comment" style="color: #8b949e;">// Middleware for logging requests</span>
+<span class="hljs-keyword" style="color: #ff7b72;">const</span> <span class="hljs-title function_" style="color: #d2a8ff;">logger</span> = (<span class="hljs-params">req: Request, res: Response, next: () =&gt; <span class="hljs-keyword" style="color: #ff7b72;">void</span></span>) =&gt; {
+    <span class="hljs-variable language_" style="color: #ff7b72;">console</span>.<span class="hljs-title function_" style="color: #d2a8ff;">log</span>(<span class="hljs-string" style="color: #a5d6ff;">`[<span class="hljs-subst" style="color: #c9d1d9;">${<span class="hljs-keyword" style="color: #ff7b72;">new</span> <span class="hljs-built_in" style="color: #ffa657;">Date</span>().toISOString()}</span>] <span class="hljs-subst" style="color: #c9d1d9;">${req.method}</span> <span class="hljs-subst" style="color: #c9d1d9;">${req.url}</span>`</span>);
+    <span class="hljs-title function_" style="color: #d2a8ff;">next</span>();
+};
+
+app.<span class="hljs-title function_" style="color: #d2a8ff;">use</span>(logger);
+
+<span class="hljs-comment" style="color: #8b949e;">// Mock in-memory metrics</span>
+<span class="hljs-keyword" style="color: #ff7b72;">let</span> requestCount = <span class="hljs-number" style="color: #79c0ff;">0</span>;
+<span class="hljs-keyword" style="color: #ff7b72;">const</span> <span class="hljs-attr" style="color: #79c0ff;">requestTimes</span>: number[] = [];
+
+<span class="hljs-keyword" style="color: #ff7b72;">const</span> <span class="hljs-title function_" style="color: #d2a8ff;">recordMetrics</span> = (<span class="hljs-params">handler: (req: Request, res: Response) =&gt; <span class="hljs-keyword" style="color: #ff7b72;">void</span></span>) =&gt;
+    <span class="hljs-function">(<span class="hljs-params">req: Request, res: Response</span>) =&gt;</span> {
+        requestCount++;
+        <span class="hljs-keyword" style="color: #ff7b72;">const</span> start = performance.<span class="hljs-title function_" style="color: #d2a8ff;">now</span>();
+        res.<span class="hljs-title function_" style="color: #d2a8ff;">on</span>(<span class="hljs-string" style="color: #a5d6ff;">&quot;finish&quot;</span>, <span class="hljs-function">() =&gt;</span> requestTimes.<span class="hljs-title function_" style="color: #d2a8ff;">push</span>(performance.<span class="hljs-title function_" style="color: #d2a8ff;">now</span>() - start));
+        <span class="hljs-title function_" style="color: #d2a8ff;">handler</span>(req, res);
+    };
+
+<span class="hljs-comment" style="color: #8b949e;">// Standard health check endpoint</span>
+app.<span class="hljs-title function_" style="color: #d2a8ff;">get</span>(<span class="hljs-string" style="color: #a5d6ff;">&quot;/health&quot;</span>, <span class="hljs-title function_" style="color: #d2a8ff;">recordMetrics</span>(<span class="hljs-function">(<span class="hljs-params">_, res</span>) =&gt;</span> res.<span class="hljs-title function_" style="color: #d2a8ff;">json</span>({ <span class="hljs-attr" style="color: #79c0ff;">status</span>: <span class="hljs-string" style="color: #a5d6ff;">&quot;healthy&quot;</span> })));
+
+<span class="hljs-comment" style="color: #8b949e;">// Metrics endpoint (Prometheus-style)</span>
+app.<span class="hljs-title function_" style="color: #d2a8ff;">get</span>(<span class="hljs-string" style="color: #a5d6ff;">&quot;/metrics&quot;</span>, <span class="hljs-title function_" style="color: #d2a8ff;">recordMetrics</span>(<span class="hljs-function">(<span class="hljs-params">_, res</span>) =&gt;</span> {
+    <span class="hljs-keyword" style="color: #ff7b72;">const</span> avgResponseTime = requestTimes.<span class="hljs-property">length</span>
+        ? requestTimes.<span class="hljs-title function_" style="color: #d2a8ff;">reduce</span>(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> a + b, <span class="hljs-number" style="color: #79c0ff;">0</span>) / requestTimes.<span class="hljs-property">length</span>
+        : <span class="hljs-number" style="color: #79c0ff;">0</span>;
+
+    res.<span class="hljs-title function_" style="color: #d2a8ff;">set</span>(<span class="hljs-string" style="color: #a5d6ff;">&quot;Content-Type&quot;</span>, <span class="hljs-string" style="color: #a5d6ff;">&quot;text/plain&quot;</span>);
+    res.<span class="hljs-title function_" style="color: #d2a8ff;">send</span>([
+        <span class="hljs-string" style="color: #a5d6ff;">`request_count <span class="hljs-subst" style="color: #c9d1d9;">${requestCount}</span>`</span>,
+        <span class="hljs-string" style="color: #a5d6ff;">`average_response_time_ms <span class="hljs-subst" style="color: #c9d1d9;">${avgResponseTime.toFixed(<span class="hljs-number" style="color: #79c0ff;">2</span>)}</span>`</span>
+    ].<span class="hljs-title function_" style="color: #d2a8ff;">join</span>(<span class="hljs-string" style="color: #a5d6ff;">&quot;\n&quot;</span>));
+}));
+
+<span class="hljs-comment" style="color: #8b949e;">// Example mock endpoint</span>
+app.<span class="hljs-title function_" style="color: #d2a8ff;">get</span>(<span class="hljs-string" style="color: #a5d6ff;">&quot;/hello&quot;</span>, <span class="hljs-title function_" style="color: #d2a8ff;">recordMetrics</span>(<span class="hljs-function">(<span class="hljs-params">_, res</span>) =&gt;</span> res.<span class="hljs-title function_" style="color: #d2a8ff;">json</span>({ <span class="hljs-attr" style="color: #79c0ff;">message</span>: <span class="hljs-string" style="color: #a5d6ff;">&quot;Hello, world!&quot;</span> })));
+
+<span class="hljs-comment" style="color: #8b949e;">// Example POST endpoint</span>
+app.<span class="hljs-title function_" style="color: #d2a8ff;">post</span>(<span class="hljs-string" style="color: #a5d6ff;">&quot;/echo&quot;</span>, express.<span class="hljs-title function_" style="color: #d2a8ff;">json</span>(), <span class="hljs-title function_" style="color: #d2a8ff;">recordMetrics</span>(<span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> res.<span class="hljs-title function_" style="color: #d2a8ff;">json</span>({ <span class="hljs-attr" style="color: #79c0ff;">received</span>: req.<span class="hljs-property">body</span> })));
+
+<span class="hljs-comment" style="color: #8b949e;">// Start the server</span>
+app.<span class="hljs-title function_" style="color: #d2a8ff;">listen</span>(port, <span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_" style="color: #ff7b72;">console</span>.<span class="hljs-title function_" style="color: #d2a8ff;">log</span>(<span class="hljs-string" style="color: #a5d6ff;">`Microservice running on port <span class="hljs-subst" style="color: #c9d1d9;">${port}</span>`</span>));
+</code></pre>
