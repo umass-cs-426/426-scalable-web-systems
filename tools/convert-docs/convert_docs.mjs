@@ -10,6 +10,7 @@ import juice from 'juice';
 import cliProgress from 'cli-progress';
 import mime from "mime-types";
 import { fileURLToPath } from "url";
+import * as markdownItMermaid from "markdown-it-mermaid";
 
 // Get the directory where this script is located
 // We will use this to find assets used in the code.
@@ -58,16 +59,13 @@ const mdImageToBase64 = (md) => {
     };
 };
 
-
-
-
 // Initialize Markdown parser with highlight.js for syntax highlighting
 const mdParser = markdownIt({
     highlight: (code, lang) => {
         const validLang = lang && hljs.getLanguage(lang) ? lang : "plaintext";
         return `<pre><code class="hljs language-${validLang}">${hljs.highlight(code, { language: validLang }).value}</code></pre>`;
     }
-}).use(mdImageToBase64);
+}).use(markdownItMermaid); //.use(mdImageToBase64);
 
 // Find the markdown files.
 const findMarkdownFiles = () => glob.sync(`${SOURCE_DIR}/**/*.md`);

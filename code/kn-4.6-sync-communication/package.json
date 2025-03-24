@@ -1,0 +1,31 @@
+{
+  "name": "4.6-sync-communication",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start:api": "ts-node api-service/index.ts",
+    "start:user": "ts-node user-service/index.ts",
+    "start:product": "ts-node product-service/index.ts",
+    "build": "tsc",
+    "serve:api": "node dist/api-service/index.js",
+    "serve:user": "node dist/user-service/index.js",
+    "serve:product": "node dist/product-service/index.js",
+    "clean": "rimraf dist",
+    "realclean": "rimraf dist node_modules"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/express": "^5.0.1",
+    "@types/node": "^22.13.11",
+    "rimraf": "^6.0.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  }
+}

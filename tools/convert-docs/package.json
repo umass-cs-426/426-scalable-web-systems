@@ -10,6 +10,7 @@
     "highlight.js": "^11.11.1",
     "juice": "^11.0.1",
     "markdown-it": "^14.1.0",
+    "markdown-it-mermaid": "^0.6.4",
     "mime-types": "^2.1.35"
   }
 }
