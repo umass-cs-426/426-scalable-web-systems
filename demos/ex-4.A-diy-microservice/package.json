@@ -1,0 +1,32 @@
+{
+  "name": "ex-4.a-diy-microservice",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test:load": "autocannon -m POST -H 'Content-Type: application/json' -b '{\"name\":\"Alice\",\"email\":\"alice@example.com\",\"age\":30}' -c 20 -d 10 http://localhost:3000/users"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/autocannon": "^7.12.6",
+    "@types/express": "^5.0.1",
+    "@types/helmet": "^0.0.48",
+    "@types/node": "^22.13.13",
+    "autocannon": "^8.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "envalid": "^8.0.0",
+    "express": "^4.21.2",
+    "helmet": "^8.1.0",
+    "pino": "^9.6.0",
+    "zod": "^3.24.2"
+  }
+}
