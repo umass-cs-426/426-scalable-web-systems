@@ -1,6 +1,8 @@
 # INSTRUCTIONS
 
-## 🧩 LP-5.A: Integrating a New Microservice into a Synchronous Architecture
+This document guides you through this lesson practice exercise. Part of the exercise is to review, discuss, and learn what is provided to you in this document. The other part is to extend the provided system to apply what you have learned. These exercises assume that you have reviewed the material that has led up to this exercise and to be prepared to study the provided system to internalize the concepts, skills, and motivations more deeply.  
+
+## LP-5.A: Integrating a New Microservice into a Synchronous Architecture
 
 ### 🧠 Learning Objectives
 

@@ -64,6 +64,7 @@ async function handleProxy(serviceName: string, req: express.Request, res: expre
 // Routes
 app.post('/a', (req, res) => handleProxy('service-a', req, res));
 app.post('/b', (req, res) => handleProxy('service-b', req, res));
+app.post('/c', (req, res) => handleProxy('service-c', req, res));
 app.post('/d', (req, res) => handleProxy('service-d', req, res));
 
 app.listen(PORT, () => {

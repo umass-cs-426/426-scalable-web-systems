@@ -1,6 +1,3 @@
-## 📘 `README.md` for LP-5.A: Synchronous Microservices
-
-```markdown
 # LP-5.A: Synchronous Microservices with Registry and Logging
 
 Welcome to LP-5.A! In this exercise, you'll integrate a new microservice (`service-d`) into an existing synchronous microservice system built with Node.js and TypeScript. You'll work with service discovery, structured logging, request forwarding, and performance testing — just like in real-world scalable systems.
@@ -11,14 +8,14 @@ Welcome to LP-5.A! In this exercise, you'll integrate a new microservice (`servi
 
 The system includes the following services:
 
-| Service       | Role                                                                 |
-|---------------|----------------------------------------------------------------------|
-| `api-gateway` | Entry point. Forwards requests to `service-a`, `service-b`, and `service-d`. |
-| `service-a`   | Calls `service-c` and returns merged data.                           |
-| `service-b`   | Calls `service-c`, then sends data to `service-d`.                   |
-| `service-c`   | (In Python with FastAPI) Enriches data with timestamps.              |
+| Service       | Role                                                                                          |
+| ------------- | --------------------------------------------------------------------------------------------- |
+| `api-gateway` | Entry point. Forwards requests to `service-a`, `service-b`, and `service-d`.                  |
+| `service-a`   | Calls `service-c` and returns merged data.                                                    |
+| `service-b`   | Calls `service-c`, then sends data to `service-d`.                                            |
+| `service-c`   | (In Python with FastAPI) Enriches data with timestamps.                                       |
 | `service-d`   | **You build this one.** Communicates with registry and responds to `gateway` and `service-b`. |
-| `registry`    | Simple service discovery system. Keeps track of all service URLs.    |
+| `registry`    | Simple service discovery system. Keeps track of all service URLs.                             |
 
 All services register themselves with the registry on startup using `POST /register` and discover other services using `GET /lookup?name=...`.
 
@@ -27,7 +24,6 @@ All services register themselves with the registry on startup using `POST /regis
 ## 🗂️ Folder Structure
 
 ```text
-
 lp-5a/
 ├── api-gateway/
 ├── service-a/
@@ -41,7 +37,6 @@ lp-5a/
 ├── package.json
 ├── tsconfig.json
 └── README.md
-
 ```
 
 ---
@@ -166,5 +161,3 @@ Submit to Gradescope:
 
 ---
 Happy coding! 🚀
-
-```

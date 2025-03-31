@@ -7,7 +7,7 @@ async function sendRequest(path: string, message: string) {
     const res = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message })
+      body: JSON.stringify({ source: 'requests', message })
     });
 
     const data = await res.json();
@@ -22,7 +22,8 @@ async function sendRequest(path: string, message: string) {
 async function main() {
   await sendRequest('/a', 'hello from /a');
   await sendRequest('/b', 'hello from /b');
-  await sendRequest('/d', 'hello from /d');
+  await sendRequest('/c', 'hello from /c');
+  // await sendRequest('/d', 'hello from /d');
 }
 
 main();

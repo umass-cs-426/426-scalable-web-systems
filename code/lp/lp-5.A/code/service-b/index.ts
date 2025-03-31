@@ -46,7 +46,15 @@ app.post('/', async (req, res) => {
   const cUrl = await lookupService('service-c');
   const dUrl = await lookupService('service-d');
 
-  if (!cUrl || !dUrl) return res.status(502).send('Could not resolve service-c or service-d');
+  if (!cUrl || !dUrl) {
+    const response = {
+      from: 'service-b',
+      serviceBResult: 'Could not resolve service-c or service-d',
+      timestamp: new Date().toISOString()
+    };
+
+    return res.status(502).send(response);
+  }
 
   try {
     // Step 1: Call service-c
