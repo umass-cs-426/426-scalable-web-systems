@@ -53,6 +53,7 @@ async function lookupService(name: string): Promise<string | null> {
 
 // Handle request from API Gateway
 app.post('/', async (req, res) => {
+  
   log.info({ source: 'gateway', body: req.body }, 'Received request from api-gateway');
 
   // TODO: Lookup and contact another service, e.g., service-c

@@ -69,7 +69,7 @@ app.post('/', async (req, res) => {
     const dResponse = await fetch(dUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ from: 'service-b', enrichedData: cData })
+      body: JSON.stringify({ source: 'service-b', enrichedData: cData })
     });
     const dData = await dResponse.json();
 

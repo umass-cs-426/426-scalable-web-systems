@@ -22,8 +22,7 @@ async function sendRequest(path: string, message: string) {
 async function main() {
   await sendRequest('/a', 'hello from /a');
   await sendRequest('/b', 'hello from /b');
-  await sendRequest('/c', 'hello from /c');
-  // await sendRequest('/d', 'hello from /d');
+  await sendRequest('/d', 'hello from /d');
 }
 
 main();

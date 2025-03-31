@@ -2,7 +2,12 @@ import express from 'express';
 import pino from 'pino';
 
 const PORT = 3005;
-const log = pino({ transport: { target: 'pino-pretty' } });
+const log = pino({ transport: { targets: [
+    { target: 'pino-pretty', level: 'info' },
+    { target: 'pino/file', 
+      options: { destination: './logs/registry.log' }, 
+                 level: 'info' }
+] } });
 
 const app = express();
 app.use(express.json());

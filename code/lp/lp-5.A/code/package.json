@@ -5,15 +5,15 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "start:gateway": "nodemon --watch api-gateway --exec ts-node api-gateway/index.ts",
-    "start:a": "nodemon --watch service-a --ext ts --exec ts-node service-a/index.ts",
-    "start:b": "nodemon --watch service-b --ext ts --exec ts-node service-b/index.ts",
+    "start:gateway": "nodemon --watch api-gateway --exec tsx api-gateway/index.ts",
+    "start:a": "nodemon --watch service-a --exec tsx service-a/index.ts",
+    "start:b": "nodemon --watch service-b --exec tsx service-b/index.ts",
     "start:c": "npm --prefix service-c run serve",
-    "start:d": "nodemon --watch service-d --ext ts --exec ts-node service-d/index.ts",
-    "start:registry": "nodemon --watch registry --ext ts --exec ts-node registry/index.ts",
+    "start:d": "nodemon --watch service-d --exec tsx service-d/index.ts",
+    "start:registry": "nodemon --watch registry --exec tsx registry/index.ts",
     "start:all": "concurrently -n gateway,a,b,c,d,registry -c blue,green,magenta,red,yellow,cyan \"npm run start:gateway\" \"npm run start:a\" \"npm run start:b\" \"npm run start:c\" \"npm run start:d\" \"npm run start:registry\"",
-    "start:test": "ts-node requests.ts",
-    "start:autocannon": "ts-node autocannon.ts"
+    "start:test": "tsx requests.ts",
+    "start:autocannon": "tsx autocannon.ts"
   },
   "dependencies": {
     "express": "^4.18.2",
@@ -26,7 +26,6 @@
     "autocannon": "^8.0.0",
     "concurrently": "^8.2.0",
     "nodemon": "^3.0.2",
-    "ts-node": "^10.9.2",
     "tsx": "^4.19.3",
     "typescript": "^5.3.3"
   }
