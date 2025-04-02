@@ -1,5 +1,6 @@
 import express from 'express';
 import pino from 'pino';
+import { Request, Response } from 'express';
 
 const PORT = 3005;
 const log = pino({ transport: { targets: [
@@ -16,7 +17,7 @@ app.use(express.json());
 const services: Record<string, string> = {};
 
 // POST /register { name, url }
-app.post('/register', (req, res) => {
+app.post('/register', (req: Request, res: Response) => {
   const { name, url } = req.body;
 
   if (!name || !url) {
@@ -30,7 +31,7 @@ app.post('/register', (req, res) => {
 });
 
 // GET /lookup?name=service-name
-app.get('/lookup', (req, res) => {
+app.get('/lookup', (req: Request, res: Response) => {
   const name = req.query.name as string;
 
   if (!name) {

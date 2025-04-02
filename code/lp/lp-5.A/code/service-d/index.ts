@@ -1,6 +1,7 @@
 import express from 'express';
 import pino from 'pino';
 import fs from 'fs';
+import { Request, Response } from 'express';
 
 const PORT = 3004;
 const REGISTRY_URL = 'http://localhost:3005';
@@ -52,7 +53,7 @@ async function lookupService(name: string): Promise<string | null> {
 }
 
 // Handle request from API Gateway
-app.post('/', async (req, res) => {
+app.post('/', async (req: Request, res: Response) => {
   
   log.info({ source: 'gateway', body: req.body }, 'Received request from api-gateway');
 
@@ -69,7 +70,7 @@ app.post('/', async (req, res) => {
 });
 
 // Handle request from service-b
-app.post('/from-b', async (req, res) => {
+app.post('/from-b', async (req: Request, res: Response) => {
   log.info({ source: 'service-b', body: req.body }, 'Received request from service-b');
 
   // TODO: Process enrichedData, maybe fetch from registry or another service

@@ -1,5 +1,6 @@
 import express from 'express';
 import pino from 'pino';
+import { Request, Response } from 'express';
 
 const PORT = 3002;
 const REGISTRY_URL = 'http://localhost:3005';
@@ -42,7 +43,7 @@ async function lookupService(name: string): Promise<string | null> {
   }
 }
 
-app.post('/', async (req, res) => {
+app.post('/', async (req: Request, res: Response) => {
   const cUrl = await lookupService('service-c');
   const dUrl = await lookupService('service-d');
 

@@ -1,3 +1,4 @@
+
 const GATEWAY = 'http://localhost:3000';
 
 async function sendRequest(path: string, message: string) {
@@ -26,3 +27,4 @@ async function main() {
 }
 
 main();
+
