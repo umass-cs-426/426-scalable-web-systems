@@ -114,9 +114,33 @@ const processFile = async (mdFile, cssContent) => {
 }
 
 const main = async () => {
+    const args = process.argv.slice(2); // get arguments after the script path
+    const cssContent = await loadCss();
+
+    // If a specific markdown file is passed as an argument
+    if (args.length === 1) {
+        const inputPath = path.resolve(args[0]);
+
+        if (!fs.existsSync(inputPath)) {
+            console.error(`❌ File not found: ${inputPath}`);
+            process.exit(1);
+        }
+
+        const markdownContent = await fs.readFile(inputPath, 'utf8');
+        let htmlContent = convertMarkdownToHtml(markdownContent, inputPath);
+
+        if (cssContent) {
+            htmlContent = `<style>${cssContent}</style>\n${htmlContent}`;
+        }
+
+        const inlinedHtml = inlineCss(htmlContent);
+        console.log(inlinedHtml); // Output to standard output
+        return;
+    }
+
+    // Default behavior: process all markdown files in the SOURCE_DIR
     await fs.ensureDir(OUTPUT_DIR);
     const markdownFiles = findMarkdownFiles();
-    const cssContent = await loadCss();
 
     const progressBar = new cliProgress.SingleBar(
         {}, cliProgress.Presets.shades_classic
