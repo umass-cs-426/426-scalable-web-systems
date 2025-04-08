@@ -1,5 +1,8 @@
 {
   "IDX.aI.enableInlineCompletion": true,
   "IDX.aI.enableCodebaseIndexing": true,
-  "slidev.port": 3030
+  "slidev.port": 3030,
+  "editor.wordWrap": "wordWrapColumn",
+  "editor.wrappingIndent": "indent",
+  "prettier.proseWrap": "always"
 }
