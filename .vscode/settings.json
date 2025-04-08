@@ -4,5 +4,5 @@
   "slidev.port": 3030,
   "editor.wordWrap": "wordWrapColumn",
   "editor.wrappingIndent": "indent",
-  "prettier.proseWrap": "always"
+  "editor.wordWrapColumn": 80
 }

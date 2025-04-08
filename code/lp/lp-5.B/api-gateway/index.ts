@@ -1,16 +1,16 @@
 import express from 'express';
 import pino from 'pino';
-import { Request, Response } from 'express';
 
-const PORT = 3001;
+const PORT = 3000;
 const REGISTRY_URL = 'http://localhost:3005';
 
 const log = pino({ transport: { target: 'pino-pretty' } });
 
 const app = express();
+
 app.use(express.json());
 
-// Retry logic for registry
+// Retry logic for registering with the registry
 async function registerWithRetry(name: string, url: string, maxRetries = 5) {
   for (let i = 0; i < maxRetries; i++) {
     try {
@@ -43,34 +43,31 @@ async function lookupService(name: string): Promise<string | null> {
   }
 }
 
-app.post('/', async (req: Request, res: Response) => {
-  const serviceCUrl = await lookupService('service-c');
-  if (!serviceCUrl) return res.status(502).send('Could not resolve service-c');
-
+// Proxy handler for forwarding requests
+async function handleProxy(serviceName: string, req: express.Request, res: express.Response) {
+  const url = await lookupService(serviceName);
+  if (!url) return res.status(502).send(`Could not resolve ${serviceName}`);
   try {
-    const cResponse = await fetch(serviceCUrl, {
-      method: 'POST',
+    const response = await fetch(url, {
+      method: req.method,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ source: 'service-a', message: req.body.message })
+      body: JSON.stringify(req.body)
     });
-
-    const cData = await cResponse.json();
-
-    const response = {
-      from: 'service-a',
-      originalMessage: req.body.message,
-      serviceCResponse: cData,
-      timestamp: new Date().toISOString()
-    };
-
-    res.json(response);
+    const result = await response.json();
+    res.status(response.status).json(result);
   } catch (err) {
-    log.error(`Error contacting service-c: ${(err as Error).message}`);
-    res.status(500).send('Error contacting service-c');
+    log.error(`Error forwarding to ${serviceName}: ${(err as Error).message}`);
+    res.status(500).send(`Error communicating with ${serviceName}`);
   }
-});
+}
+
+// Routes
+app.post('/a', (req, res) => handleProxy('service-a', req, res));
+app.post('/b', (req, res) => handleProxy('service-b', req, res));
+app.post('/c', (req, res) => handleProxy('service-c', req, res));
+app.post('/d', (req, res) => handleProxy('service-d', req, res));
 
 app.listen(PORT, () => {
-  log.info(`Service A listening on port ${PORT}`);
-  registerWithRetry('service-a', `http://localhost:${PORT}`);
+  log.info(`API Gateway listening on port ${PORT}`);
+  registerWithRetry('api-gateway', `http://localhost:${PORT}`);
 });

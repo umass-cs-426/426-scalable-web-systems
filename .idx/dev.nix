@@ -7,8 +7,8 @@
   # Use https://search.nixos.org/packages to find packages
   packages = [
     # pkgs.go
-    # pkgs.python311
-    # pkgs.python311Packages.pip
+    pkgs.python312Full
+    pkgs.python312Packages.pip
     # pkgs.nodejs_20    
     # pkgs.nodePackages.nodemon
     # pkgs.pandoc
@@ -50,11 +50,17 @@
       onCreate = {
         # Example: install JS dependencies from NPM
         # npm-install = "npm install";
+        create-venv = ''
+          python -m venv .env
+          source .env/bin/activate
+          pip install poetry
+        '';
       };
       # Runs when the workspace is (re)started
       onStart = {
         # Example: start a background task to watch and re-build backend code
         # watch-backend = "npm run watch-backend";
+        start_virtual_env = "source .env/bin/activate";
       };
     };
   };
