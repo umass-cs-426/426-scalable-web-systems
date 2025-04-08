@@ -3,7 +3,11 @@
   "bin": {
     "convert-docs": "./convert_docs.mjs"
   },
+  "type": "module",
   "dependencies": {
+    "@agoose77/markdown-it-mermaid": "^1.1.0",
+    "@jwevans/markdown-it-mermaid": "^0.1.2",
+    "@wekanteam/markdown-it-mermaid": "^0.6.4",
     "cli-progress": "^3.12.0",
     "fs-extra": "^11.3.0",
     "glob": "^11.0.1",

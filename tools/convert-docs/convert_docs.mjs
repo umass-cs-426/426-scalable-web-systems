@@ -10,7 +10,9 @@ import juice from 'juice';
 import cliProgress from 'cli-progress';
 import mime from "mime-types";
 import { fileURLToPath } from "url";
-import * as markdownItMermaid from "markdown-it-mermaid";
+
+import MarkdownIt from 'markdown-it';
+import markdownItMermaid from 'markdown-it-mermaid';
 
 // Get the directory where this script is located
 // We will use this to find assets used in the code.
