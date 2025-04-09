@@ -2,7 +2,7 @@ import express from 'express'
 
 const app = express()
 
-app.get('/call-b', async (_req, res) => {
+app.get('/call-b', async (req, res) => {
   try {
     const response = await fetch('http://api-b/hello')
     const text = await response.text()
