@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../modules/06-docker-basics/lectures/06-lecture-02"
+		}
+	],
+	"settings": {
+		"IDX.aI.enableInlineCompletion": true,
+		"IDX.aI.enableCodebaseIndexing": true,
+		"slidev.port": 3030
+	}
+}
