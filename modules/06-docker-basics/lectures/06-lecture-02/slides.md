@@ -423,14 +423,129 @@ docker run -it -p 3000:3000 -v %cd%:/app express-dev-tsx
 ```
 
 ---
+zoom: 1.5
+---
 
-# Creating a Network
+# Two Services
 
-Create a network for our architecture.
+- The next interesting thing we want to do is to figure out
+how to have two services talk to one another.
+- If we can do that, then we can start building a microservice
+architecture like the one we saw at the beginning.
+
+---
+zoom: 1.2
+---
+
+# 🛰️ Express Services Over Docker Network
+
+```mermaid
+flowchart LR
+  subgraph Docker Network: demo-net
+    A[api-a Container<br>Service A<br>localhost:3000] -->|HTTP GET /hello| B[api-b Container<br>Service B<br>port 4000]
+  end
+
+  C[Browser or curl] -->|Request to /call-b| A
+```
+
+This is the architecture we are going to build.
+
+---
+zoom: 1.2
+---
+
+# Service B
+
+<<< @/06-lecture-02-code/02-two-services/service-b/index.ts
+
+---
+zoom: 1.2
+---
+
+# Service A
+
+<<< @/06-lecture-02-code/02-two-services/service-a/index.ts
+
+---
+zoom: 1.2
+---
+
+# Dockerfiles
+
+<<< @/06-lecture-02-code/02-two-services/service-a/Dockerfile dockerfile
+
+Same for both service A and B
+
+---
+zoom: 1.1
+---
+
+# Package Configuration
+
+<<< @/06-lecture-02-code/02-two-services/service-a/package.json
+
+Same for both service A and B
 
 ---
 
-# Service-A Dockerfile
+# 🧪 Build + Run
 
-What this looks like
+Now it is time to build the services
+
+Create a network:
+
+```bash
+docker network create demo-net
+```
+
+Visit the service directories in two terminals:
+
+```bash
+cd service-b # terminal 1
+cd service-a # terminal 2
+```
+
+Run the following in terminal 1:
+
+```bash
+docker build -t service-b .
+docker run -d --name api-b --network demo-net service-b
+```
+
+Run the following in terminal 2:
+
+```bash
+docker build -t service-a .
+docker run -d --name api-a --network demo-net -p 3000:3000 service-a
+```
+
+---
+zoom: 1.5
+---
+
+# Next Time
+
+Bringing it all together!
+
+---
+hide: true
+---
+
+# Back to The Microservice Architecture
+
+Dockerizing an entire system
+
+We need to "dockerize" the following services:
+
+- registry
+- api-gateway
+- service-a
+- service-b
+- service-c
+- service-d
+
+**This means:**
+- They all need a `Dockerfile`
+- They all need to be on the same network
+
 
