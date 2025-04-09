@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "../modules/06-docker-basics/lectures/06-lecture-02"
+		},
+		{
+			"path": "../modules/06-docker-basics/lectures/06-lecture-02/06-lecture-02-code"
 		}
 	],
 	"settings": {
